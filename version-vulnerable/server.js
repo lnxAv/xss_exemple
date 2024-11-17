@@ -11,6 +11,10 @@ app.get('/' , (req, res) => {
     res.send('Hello World!');
 });
 
+app.get('/test' , (req, res) => {
+    const { name } = req.query;
+    res.send(`Hello ${name}`);
+});
 
 app.listen(3000, () => {
     console.log('Serveur démarré sur http://localhost:3000');
