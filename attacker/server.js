@@ -14,13 +14,25 @@ app.get('/showInput', (req, res) => {
 
 app.get('/test', (req, res) => {
     const { name } = req.query;
-    res.send(`Hello ${name}`);
+    res.send(/* html */ `
+        <h1>Hello ${name}</h1>
+        <form action="/submit" method="post">
+            <input type="text" name="name" value="World">
+            <input type="submit" value="Submit">
+        </form>
+        
+    `);
 });
 
-app.post('/key', (req, res) => {
-    const { key } = req.body;
-    fs.appendFileSync(path.join(__dirname, './public', 'txt/input.txt'), key);
-    console.log(key);
+app.post('/submit', (req, res) => {
+    const body = req.body;
+    const date = new Date();
+    const text = `
+        [${date.toLocaleString()}]
+        ${Object.entries(body).map(([key, value]) => `${key}: ${value}`).join('\n')}
+    `
+    fs.appendFileSync(path.join(__dirname, './public', 'txt/input.txt'), text);
+    res.send('ok');
 });
 
 app.get('*' , (req, res) => {
