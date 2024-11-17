@@ -1,0 +1,30 @@
+services:
+  attacker:
+    container_name: attacker
+    build: 
+      context: ./attacker
+      dockerfile: Dockerfile
+    ports:
+      - "3003:3003"
+    environment:
+      - NODE_ENV=development
+
+  version-nonvulnerable:
+    container_name: version-nonvulnerable
+    build: 
+      context: ./version-nonvulnerable
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+
+  version-vulnerable:
+    container_name: version-vulnerable
+    build: 
+      context: ./version-vulnerable
+      dockerfile: ./Dockerfile
+    ports:
+      - "3000:3000" 
+    environment:
+      - NODE_ENV=development
