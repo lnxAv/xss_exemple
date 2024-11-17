@@ -8,8 +8,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('*' , (req, res) => {
-    res.sendFile('./xss.js');
-});
+    res.sendFile(path.join(__dirname, './public', 'js/xss.js'));});
 
 app.listen(3003, () => {
     console.log('Serveur démarré sur http://localhost:3003');
