@@ -12,23 +12,13 @@ app.get('/showInput', (req, res) => {
     res.sendFile(path.join(__dirname, './public', 'txt/input.txt'));
 });
 
-app.get('/test', (req, res) => {
-    const { name } = req.query;
-    res.send(/* html */ `
-        <h1>Hello ${name}</h1>
-        <form action="/submit" method="post">
-            <input type="text" name="name" value="World">
-            <input type="submit" value="Submit">
-        </form>
-        
-    `);
-});
-
 app.post('/submit', (req, res) => {
     const body = req.body;
     const date = new Date();
+    const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+
     const text = `
-        [${date.toLocaleString()}]
+        [$${date.toLocaleString()} from: ${fullUrl}]
         ${Object.entries(body).map(([key, value]) => `${key}: ${value}`).join('\n')}
     `
     fs.appendFileSync(path.join(__dirname, './public', 'txt/input.txt'), text);
