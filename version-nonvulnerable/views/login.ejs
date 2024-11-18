@@ -51,6 +51,11 @@
 <body>
     <div class="login-container">
         <h1>Connexion</h1>
+        <div>
+            <% if (country) { %>
+                <h3 class="subtext">Vous êtes connecté depuis <%- country %></h3>
+            <% } %>
+        </div>
         <form method="POST" action="/login">
             <div class="form-group">
                 <label for="username">Nom d'utilisateur:</label>

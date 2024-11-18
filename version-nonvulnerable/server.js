@@ -14,7 +14,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.get('/', (req, res) => {
-    res.render('login');
+    const { country } = req.query;
+    const escapedCountry = validator.escape(country || '');
+    res.render('login', { country: escapedCountry });
 });
 
 app.get('/test', (req, res) => {

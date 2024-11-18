@@ -1,7 +1,10 @@
 const express = require('express');
+const cors = require('cors');
 const path = require('path');
 const app = express();
 const fs = require('fs');
+
+app.use(cors());
 
 // Middleware
 app.use(express.static('public'));
@@ -13,14 +16,10 @@ app.get('/showInput', (req, res) => {
 });
 
 app.post('/submit', (req, res) => {
-    const body = req.body;
+    const {__originURL, ...body} = req.body;
+    console.log(__originURL, body);
     const date = new Date();
-    const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-
-    const text = `
-        [$${date.toLocaleString()} from: ${fullUrl}]
-        ${Object.entries(body).map(([key, value]) => `${key}: ${value}`).join('\n')}
-    `
+    const text = `\n[$${date.toLocaleString()} from: ${__originURL}]\n${Object.entries(body).map(([key, value]) => `${key}: ${value}`).join('\n')} \n`
     fs.appendFileSync(path.join(__dirname, './public', 'txt/input.txt'), text);
     res.send('ok');
 });

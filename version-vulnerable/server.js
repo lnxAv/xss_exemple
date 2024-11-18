@@ -1,5 +1,4 @@
 const express = require('express');
-const path = require('path');
 const app = express();
 
 // Configuration EJS et middleware
@@ -9,25 +8,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-    res.render('login');
+    const { country } = req.query;
+    res.render('login', { country });
 });
 
 app.get('/test', (req, res) => {
     const { name } = req.query;
-    // Version vulnérable : pas de protection
-    res.render('welcome', { 
-        username: name,
-        password: '' // ajout d'un password vide pour le test
-    });
+    res.render('welcome', { username: name });
 });
 
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
     // Version vulnérable : pas de protection
-    res.render('welcome', { 
-        username: username,
-        password: password // On passe aussi le password
-    });
+    res.render('welcome', { username: username });
 });
 
 app.listen(3000, () => {
